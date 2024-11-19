@@ -2,7 +2,7 @@
 
 ## Table of Contents
   - [Goals](#goals)
-  - [Plan] (#plan)
+  - [Plan](#plan)
 
 ## Goals
   1. NO MORE FEAR OF PUBLIC SPEAKING
