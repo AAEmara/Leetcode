@@ -1,62 +1,31 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
+        substring_set = set() # Holds current substring characters
+        # j is the second pointer for the current character
+        i = 0 #  The first pointer as the pivoting character
         """
-          (INPUTS): s: str = "mamamia"
-          (OUTPUT): max_substring_len: int = 3
-          (ASSUMPTIONS):
-                        1. The are repeating characters in the string
-                        2. A string may contain english letters, digits, symbols,
-                           and spaces
-                        3. We don't have to return the sub-string, just its length
-          (STEPS):
-                    1. Intialize an array to hold the current sub-string with []
-                    2. Create a variable to hold the max length of a substring
-                    3. One pointer looping over the string from the beginning
-                    4. Compare the character at hand if it's in the current array
-                    5. While the char is in the array then calculate the length of 
-                       the items in the current substring array
-                    6. Compare the current length of the substring array with the
-                       max length of the substring array
-                    7. Remove the first occurence of the char from the 
-                       current substring array
-                    8. If not, Add the character to the current substring
-                    8. Move the pointer forward
-                    8. Repeat from 3 to 7
-                    9. Return the max length of the substrings
-         (ANALYSIS):
-                    Time Complexity: O(n * m)
-                                    n: Length of the string (Outer loop)
-                                    m: Length of the substring (Checking the array)
-                                        m = n at worst case (substring = string)
-                                    c: Length of the substring to shift after
-                                       deleting the first character
-                                       c = n-1 at worst case O(n-1) ~ O(n)
-                                    Worst Case Scenario O(n^3)
+        Example: (It contains sparse and consecutive repeating characters)
+            "mammamia" 0 -> 7 (8 characters long)
+            substring, i, j, {}, max
+            m        , 0, 0, {'m'}, 1
+            ma       , 0, 1, {'m', 'a'}, 2
+            mam      , 0, 2, {'m', 'a'}, 2
+            am       , 1, 2, {'a', 'm'}, 2
+            amm      , 1, 3, {'a', 'm'}, 2
+            mm       , 2, 3, {'m'}, 2
+            m        , 3, 3, {'m'}, 2
+            ma       , 3, 4, {'m', 'a'}, 2
+            mam      , 3, 5, {'m', 'a'}, 2
+            am       , 4, 5, {'a', 'm'}, 2
+            ami      , 4, 6, {'a', 'm', 'i'}, 3
+            amia     , 4, 7, {'a', 'm', 'i'}, 3
+            mia      , 5, 6, {'m', 'i', 'a'}, 3
         """
-        # "mamamia"
-        # "mammamia"
-        current_substring: List[str] = []
-        max_substring_length = 0
-        # i = 0, s[i] = 'm', [] => ['m'], max_len = 0
-        # i = 1, s[i] = 'a', ['m'] => ['m', 'a'], max_len = 0
-        # i = 2, s[i] = 'm', ['m', 'a'] => ['a', 'm'], max_len = 2
-        # i = 3, s[i] = 'm', ['a', 'm'] => ['m', 'm'], max_len = 2
-        # i = 3, s[i] = 'm', ['m', 'm'] => ['m'], max_len = 2
-        # i = 4, s[i] = 'a', ['m'] => ['m', 'a'], max_len = 2
-        # i = 5, s[i] = 'm', ['m', 'a'] => ['a'], max_len = 2
-        # i = 5, s[i] = 'm', ['a'] => ['a', 'm'], max_len = 2
-        # i = 6, s[i] = 'i', ['a', 'm'] => ['a', 'm', 'i'], max_len = 2
-        # i = 7, s[i] = 'a', ['a', 'm', 'i'] => ['m', 'i'], max_len = 3
-        # i = 7, s[i] = 'a', ['m', 'i'] => ['m', 'i', 'a'], max_len = 3
-        # max(3, 3) => return 3
-
-        
-        # O(n) for the for loop
-        for i in range(len(s)):
-            # O(n) at worst case
-            while s[i] in current_substring:
-                current_len = len(current_substring) # O(1)
-                max_substring_length = max(max_substring_length, current_len) # O(1)
-                del current_substring[0] # O(n-1) because del from beginning
-            current_substring.append(s[i]) # O(1) for adding at the end
-        return max(max_substring_length, len(current_substring))
+        max_substring_len = 0
+        for j in range(len(s)):
+            while s[j] in substring_set:
+                substring_set.remove(s[i]) # Removing current char from set
+                i += 1 # Change the pivoting character
+            substring_set.add(s[j]) # Add the current character to set
+            max_substring_len = max(max_substring_len, j - i + 1)
+        return max_substring_len # 0 if empty, otherwise, maximum length
