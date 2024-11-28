@@ -26,6 +26,9 @@ class Solution:
             4. Move with two pointer and compare each character until they reach
             half of the array.
             5. if the loop is didn't finish return False, otherwise return true.
+        (ANALYSIS):
+            Time Complexity: O(n)
+            Space Complexity: O(n)
         """
         num_start: int = ord('0')
         num_end: int = ord('9')
